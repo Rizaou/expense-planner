@@ -7,34 +7,49 @@ class AddExpense extends StatelessWidget {
   Future<void> getDialog(BuildContext context) {
     final provider = Provider.of<ExpenseProvider>(context, listen: false);
     final amount = TextEditingController();
+    final type = TextEditingController();
 
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
               content: const Text('Add Expense'),
               actions: [
-                Form(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    TextFormField(
-                      controller: amount,
-                    ),
-                    TextFormField(),
-                    const Divider(),
-                    ElevatedButton(
-                      onPressed: () {
-                        provider.addData(
-                          ExpenseModel(
-                            amount: double.parse(amount.text),
-                            time: DateTime.now(),
-                          ),
-                        );
-                      },
-                      child: const Text('Add'),
-                    ),
-                  ],
-                )),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Form(
+                      child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      TextFormField(
+                        controller: amount,
+                        decoration: InputDecoration(
+                          label: Text('Amount'),
+                        ),
+                      ),
+                      TextFormField(
+                        controller: type,
+                        decoration: InputDecoration(
+                          label: Text('Type'),
+                        ),
+                      ),
+                      const Divider(),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (!amount.text.isEmpty) {
+                            provider.addData(
+                              ExpenseModel(
+                                amount: double.parse(amount.text),
+                                type: type.text,
+                                time: DateTime.now(),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text('Add'),
+                      ),
+                    ],
+                  )),
+                ),
               ],
             ));
   }

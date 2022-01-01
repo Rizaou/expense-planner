@@ -4,35 +4,72 @@ import 'package:gelir_gider/home_page/add_expense/add_expense.dart';
 import 'package:graphic/graphic.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<Map<dynamic, dynamic>> data = [];
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ExpenseProvider(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Home Page'),
-          actions: [
-            IconButton(
-              onPressed: () {
-                AddExpense().getDialog(context);
-              },
-              icon: Icon(Icons.add),
+    final espenseProvider = Provider.of<ExpenseProvider>(context, listen: true);
+    var expenseData = espenseProvider.getExpenses;
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home Page'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              AddExpense().getDialog(context);
+            },
+            icon: const Icon(Icons.add),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 400,
+              child: Chart(
+                data: expenseData,
+                transforms: [Proportion(variable: 'amount', as: 'percent')],
+                variables: {
+                  'type':
+                      Variable(accessor: (Map map) => map['type'] as String),
+                  'amount':
+                      Variable(accessor: (Map map) => map['amount'] as num),
+                },
+                coord: PolarCoord(transposed: true, dimCount: 1),
+                elements: [
+                  IntervalElement(
+                    position: Varset('percent') / Varset('type'),
+                    label: LabelAttr(
+                        encoder: (tuple) => Label(
+                              '${tuple['type']}\n${tuple['amount']}',
+                              LabelStyle(Defaults.runeStyle),
+                            )),
+                    color:
+                        ColorAttr(variable: 'type', values: Defaults.colors20),
+                    modifiers: [StackModifier()],
+                  )
+                ],
+              ),
             ),
-          ],
-        ),
-        body: Chart(
-          data: [
-            {'genre': 'Sports', 'sold': 275},
-          ],
-          variables: {
-            'genre': Variable(accessor: (Map map) => map['genre'] as String),
-            'sold': Variable(accessor: (Map map) => map['sold'] as num),
-          },
-          elements: [IntervalElement()],
-          axes: [
-            Defaults.horizontalAxis,
-            Defaults.verticalAxis,
+            Container(
+              width: double.infinity,
+              child: Column(
+                  children: expenseData
+                      .map((e) => Container(
+                            width: double.infinity,
+                            child: Card(
+                              child: Text(e['type'].toString()),
+                            ),
+                          ))
+                      .toList()),
+            ),
           ],
         ),
       ),
