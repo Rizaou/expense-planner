@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:gelir_gider/expense_provider.dart';
+
+import 'package:provider/provider.dart';
+import './home_page/home_page.dart';
 
 void main() => runApp(MyHomePage());
 
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Working has just started'),
-        ),
-        body: const Center(
-          child: Text('Welcome'),
-        ),
+    return ChangeNotifierProvider(
+      create: (_) => ExpenseProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: HomePage(),
       ),
     );
   }
