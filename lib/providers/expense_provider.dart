@@ -1,16 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gelir_gider/database/database_provider.dart';
 import 'package:gelir_gider/models/expense_model.dart';
 
 class ExpenseProvider with ChangeNotifier {
   // ignore: prefer_final_fields
   List<Map<dynamic, dynamic>> _expense_data = [
-    {'type': 'Sports', 'amount': 275},
-    {'type': 'Strategy', 'amount': 115},
-    {'type': 'Action', 'amount': 120},
-    {'type': 'Shooter', 'amount': 350},
-    {'type': 'Other', 'amount': 150},
-    {'type': 'market', 'amount': 100},
+    {'type': 'market', 'amount': 100.0},
+    {'type': 'okul', 'amount': 50.0},
+    {'type': 'eğlence', 'amount': 100.0},
   ];
 
   List<Map<String, double>> _income = [
@@ -32,16 +30,28 @@ class ExpenseProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  double getTotalIncome() {
-    double totalAmount = 0;
+  Future<void> getDataFromDataBase() async {
+    var data = await DBHelper.getData('expenses');
+    print(data);
+  }
 
+  Future<void> _setDataToDataBase() async {
+    DBHelper.insert(
+      'expenses',
+      ExpenseModel(
+          amount: 10, date: DateTime.now(), type: 'Type', description: 'Yok'),
+    );
+  }
+
+  double getTotalIncome() {
+    double amount = 0;
     _income.forEach((element) {
       element.forEach((key, value) {
-        totalAmount += value;
+        amount += value;
       });
     });
 
-    return totalAmount;
+    return amount;
   }
 
   double getTotalExpense() {

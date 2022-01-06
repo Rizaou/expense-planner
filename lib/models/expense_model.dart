@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class ExpenseModel {
   final double amount;
+  late String description;
   final String type;
-  final DateTime time;
+  final DateTime date;
 
   ExpenseModel({
     required this.amount,
     required this.type,
-    required this.time,
+    required this.date,
+    description = '',
   });
 }

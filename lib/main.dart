@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gelir_gider/expense_provider.dart';
+import 'package:gelir_gider/providers/expense_provider.dart';
 
 import 'package:provider/provider.dart';
 import './home_page/home_page.dart';

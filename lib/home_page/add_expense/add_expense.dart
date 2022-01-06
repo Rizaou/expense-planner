@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gelir_gider/models/expense_model.dart';
-import 'package:gelir_gider/expense_provider.dart';
+import 'package:gelir_gider/providers/expense_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddExpense extends StatelessWidget {
@@ -40,7 +40,7 @@ class AddExpense extends StatelessWidget {
                               ExpenseModel(
                                 amount: double.parse(amount.text),
                                 type: type.text,
-                                time: DateTime.now(),
+                                date: DateTime.now(),
                               ),
                             );
                           }
