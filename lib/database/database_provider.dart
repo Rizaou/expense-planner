@@ -5,10 +5,12 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
 class DBHelper {
-  static Future<sql.Database> database() async {
+  static const _TABLE_NAME = 'expenses';
+
+  static Future<sql.Database> _database() async {
     final dbPath = await sql.getDatabasesPath();
     return sql.openDatabase(
-      path.join(dbPath, 'expenses.db'),
+      path.join(dbPath, '$_TABLE_NAME.db'),
       onCreate: (db, version) {
         return db.execute(
             'CREATE TABLE expenses(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, amount REAL,desc TEXT ,date TEXT)');
@@ -17,10 +19,10 @@ class DBHelper {
     );
   }
 
-  static Future<void> insert(String tableName, ExpenseModel data) async {
-    final db = await DBHelper.database();
+  static Future<void> insert(ExpenseModel data) async {
+    final db = await DBHelper._database();
     db.insert(
-      tableName,
+      _TABLE_NAME,
       {
         'title': data.type,
         'amount': data.amount,
@@ -30,8 +32,8 @@ class DBHelper {
     );
   }
 
-  static Future<List<Map<String, dynamic>>> getData(String tableName) async {
-    final db = await DBHelper.database();
-    return db.query(tableName);
+  static Future<List<Map<String, dynamic>>> getData() async {
+    final db = await DBHelper._database();
+    return db.query(_TABLE_NAME);
   }
 }
