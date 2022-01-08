@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:gelir_gider/database/database_provider.dart';
+import 'package:gelir_gider/database/database_provider_expenses.dart';
 import 'package:gelir_gider/models/expense_model.dart';
 
 class ExpenseProvider with ChangeNotifier {
   // ignore: prefer_final_fields
-  List<Map<dynamic, dynamic>> expense_data = [
+  List<Map<dynamic, dynamic>> _expense_data = [
     // {'type': 'market', 'amount': 100.0},
     // {'type': 'okul', 'amount': 50.0},
     // {'type': 'eğlence', 'amount': 100.0},
@@ -17,9 +17,9 @@ class ExpenseProvider with ChangeNotifier {
 
   // Get
   Future<List<Map<dynamic, dynamic>>> get getExpenses async {
-    List<Map<String, dynamic>> list = await DBHelper.getData();
-    print('liste : ' + list.toString());
-
+    List<Map<String, dynamic>> list = await DBHelperExpenses.getData();
+    //print('liste : ' + list.toString());
+    _expense_data = list;
     return list;
   }
 
@@ -29,7 +29,7 @@ class ExpenseProvider with ChangeNotifier {
   void addData(ExpenseModel data) {
     _setDataToDataBase(data).then((value) {
       print('data was added : ' + data.toString());
-      expense_data.add({'type': data.type, 'amount': data.amount});
+      _expense_data.add({'type': data.type, 'amount': data.amount});
       notifyListeners();
     });
   }
@@ -40,11 +40,11 @@ class ExpenseProvider with ChangeNotifier {
   }
 
   Future<void> getDataFromDataBase() async {
-    var data = await DBHelper.getData();
+    var data = await DBHelperExpenses.getData();
   }
 
   Future<void> _setDataToDataBase(ExpenseModel data) async {
-    DBHelper.insert(data);
+    DBHelperExpenses.insert(data);
   }
 
   double getTotalIncome() {
@@ -60,7 +60,7 @@ class ExpenseProvider with ChangeNotifier {
 
   double getTotalExpense() {
     double sum = 0;
-    expense_data.forEach((element) {
+    _expense_data.forEach((element) {
       element.forEach((key, value) {
         if (key == 'amount') {
           sum += value;

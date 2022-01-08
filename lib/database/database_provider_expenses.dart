@@ -4,9 +4,8 @@ import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
-class DBHelper {
+class DBHelperExpenses {
   static const _TABLE_NAME_EXPENSES = 'expenses';
-  static const _TABLE_NAME_INCOME = 'incomes';
 
   static Future<sql.Database> _database() async {
     final dbPath = await sql.getDatabasesPath();
@@ -23,7 +22,7 @@ class DBHelper {
 
   static Future<void> insert(ExpenseModel data) async {
     _TABLE_NAME_EXPENSES:
-    final db = await DBHelper._database();
+    final db = await DBHelperExpenses._database();
     db.insert(
       _TABLE_NAME_EXPENSES,
       {
@@ -36,7 +35,7 @@ class DBHelper {
   }
 
   static Future<List<Map<String, dynamic>>> getData() async {
-    final db = await DBHelper._database();
+    final db = await DBHelperExpenses._database();
     return db.query(_TABLE_NAME_EXPENSES);
   }
 
