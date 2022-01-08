@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ExpenseModel {
   final double amount;
-  late String description;
+  String? description = 'yok';
   final String type;
   final DateTime date;
 
@@ -10,6 +10,11 @@ class ExpenseModel {
     required this.amount,
     required this.type,
     required this.date,
-    description = '',
+    description,
   });
+
+  @override
+  String toString() {
+    return 'amount : $amount, desription : $description , type : $type, time: ${date.toString()}';
+  }
 }

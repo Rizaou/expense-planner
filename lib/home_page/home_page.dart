@@ -21,29 +21,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final expenseProvider = Provider.of<ExpenseProvider>(context, listen: true);
     List<Map<dynamic, dynamic>> expensesData = [];
-    // expenseProvider.getExpenses.then((value) {
-    //   expensesData = value;
-
-    //   // value.forEach((element) {
-    //   //   // print('elemen : $element, entries : ${element.entries}\n');
-    //   //   print('Before : ' +
-    //   //       expensesData.toString() +
-    //   //       ' data : ' +
-    //   //       element.toString());
-    //   //   expensesData.add(element);
-    //   //   print('After : ' +
-    //   //       expensesData.toString() +
-    //   //       ' data : ' +
-    //   //       element.toString());
-
-    //   //   // expensesData.addEntries(element.entries);
-
-    //   //   // element.forEach((key, value) {
-    //   //   //   expensesData.addAll({'key' : key,'value'})
-    //   //   //   print('Key : $key, value : $value\n');
-    //   //   // });
-    //   // });
-    // }).then((value) => print('after expend : ' + expensesData.toString()));
 
     return Scaffold(
       appBar: AppBar(
@@ -95,22 +72,22 @@ class _HomePageState extends State<HomePage> {
                             Proportion(variable: 'amount', as: 'percent')
                           ],
                           variables: {
-                            'type': Variable(
-                                accessor: (Map map) => map['type'] as String),
+                            'title': Variable(
+                                accessor: (Map map) => map['title'] as String),
                             'amount': Variable(
                                 accessor: (Map map) => map['amount'] as num),
                           },
                           coord: PolarCoord(transposed: true, dimCount: 1),
                           elements: [
                             IntervalElement(
-                              position: Varset('percent') / Varset('type'),
+                              position: Varset('percent') / Varset('title'),
                               label: LabelAttr(
                                   encoder: (tuple) => Label(
-                                        '${tuple['type']}\n${tuple['amount']}',
+                                        '${tuple['title']}\n${tuple['amount']}',
                                         LabelStyle(Defaults.runeStyle),
                                       )),
                               color: ColorAttr(
-                                  variable: 'type', values: Defaults.colors10),
+                                  variable: 'title', values: Defaults.colors10),
                               modifiers: [StackModifier()],
                             )
                           ],
@@ -130,9 +107,9 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       width: double.infinity,
                       child: Column(
-                          children: expenseProvider.expense_data
+                          children: expensesData
                               .map((e) => ExpenseCard(
-                                  tag: e['type'].toString(),
+                                  tag: e['title'].toString(),
                                   amount: e['amount'],
                                   time: DateTime.now()))
                               .toList()),

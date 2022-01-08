@@ -6,9 +6,9 @@ import 'package:gelir_gider/models/expense_model.dart';
 class ExpenseProvider with ChangeNotifier {
   // ignore: prefer_final_fields
   List<Map<dynamic, dynamic>> expense_data = [
-    {'type': 'market', 'amount': 100.0},
-    {'type': 'okul', 'amount': 50.0},
-    {'type': 'eğlence', 'amount': 100.0},
+    // {'type': 'market', 'amount': 100.0},
+    // {'type': 'okul', 'amount': 50.0},
+    // {'type': 'eğlence', 'amount': 100.0},
   ];
 
   List<Map<String, double>> _income = [
@@ -18,19 +18,20 @@ class ExpenseProvider with ChangeNotifier {
   // Get
   Future<List<Map<dynamic, dynamic>>> get getExpenses async {
     List<Map<String, dynamic>> list = await DBHelper.getData();
-    print(list);
+    print('liste : ' + list.toString());
 
-    return [...expense_data];
+    return list;
   }
-
-  List<Map<dynamic, dynamic>> get getTrash => [...expense_data];
 
   List<Map<String, double>> get getIncome => [..._income];
 
   // Functions
   void addData(ExpenseModel data) {
-    expense_data.add({'type': data.type, 'amount': data.amount});
-    notifyListeners();
+    _setDataToDataBase(data).then((value) {
+      print('data was added : ' + data.toString());
+      expense_data.add({'type': data.type, 'amount': data.amount});
+      notifyListeners();
+    });
   }
 
   void addIncome(String name, double amount) {
@@ -42,11 +43,8 @@ class ExpenseProvider with ChangeNotifier {
     var data = await DBHelper.getData();
   }
 
-  Future<void> _setDataToDataBase() async {
-    DBHelper.insert(
-      ExpenseModel(
-          amount: 10, date: DateTime.now(), type: 'Type', description: 'Yok'),
-    );
+  Future<void> _setDataToDataBase(ExpenseModel data) async {
+    DBHelper.insert(data);
   }
 
   double getTotalIncome() {
