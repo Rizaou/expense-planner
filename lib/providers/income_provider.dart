@@ -50,15 +50,17 @@ class IncomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  double getTotalIncome() {
+  Future<double> getTotalIncome() async {
     double sum = 0;
+    var inc = await incomes;
 
-    incomes.then((value) => value.forEach((element) {
-          print('buradaaa');
-          sum += element.income;
-        }));
+    inc.forEach((element) {
+      sum += element.income;
+    });
 
-    print('Sum : ' + sum.toString());
     return sum;
+
+    //print('Sum : ' + sum.toString());
+    //return sum;
   }
 }

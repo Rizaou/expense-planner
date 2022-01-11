@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
     List<Map<dynamic, dynamic>> expensesData = [];
 
     double totalIncome = 0;
+    // incomeProvider.getTotalIncome().then((value) {});
 
     return Scaffold(
       appBar: AppBar(
@@ -105,9 +106,24 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         width: double.infinity,
                         child: Card(
-                            child: Text(
-                          '${incomeProvider.getTotalIncome()} / ${expenseProvider.getTotalExpense()}',
-                          textAlign: TextAlign.center,
+                            child: FutureBuilder(
+                          future: incomeProvider.getTotalIncome().then((value) {
+                            totalIncome = value;
+                            // print('Total : $totalIncome , value : $value');
+                          }),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return const Text('Has an error');
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Text('Waiting');
+                            } else {
+                              return Text(
+                                '${totalIncome} / ${expenseProvider.getTotalExpense()}',
+                                textAlign: TextAlign.center,
+                              );
+                            }
+                          },
                         )),
                       ),
                       Container(
