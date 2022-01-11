@@ -157,6 +157,10 @@ class _HomePageState extends State<HomePage> {
         overlayOpacity: 0,
         children: [
           SpeedDialChild(
+            label: 'Graphic',
+            child: const Icon(Icons.grain_sharp),
+          ),
+          SpeedDialChild(
             label: 'Expenses',
             child: const Icon(Icons.attach_money_sharp),
             onTap: () {},
