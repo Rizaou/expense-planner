@@ -39,6 +39,7 @@ class AddExpense extends StatelessWidget {
                           if (!amount.text.isEmpty) {
                             provider.addData(
                               ExpenseModel(
+                                id: 0,
                                 amount: double.parse(amount.text),
                                 type: type.text,
                                 date: DateTime.now(),

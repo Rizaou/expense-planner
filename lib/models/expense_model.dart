@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ExpenseModel {
+  final int id;
   final double amount;
   String? description = 'yok';
   final String type;
   final DateTime date;
 
   ExpenseModel({
+    required this.id,
     required this.amount,
     required this.type,
     required this.date,
@@ -15,6 +17,6 @@ class ExpenseModel {
 
   @override
   String toString() {
-    return 'amount : $amount, desription : $description , type : $type, time: ${date.toString()}';
+    return 'id : $id, amount : $amount, desription : $description , type : $type, time: ${date.toString()}';
   }
 }
