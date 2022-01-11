@@ -33,8 +33,6 @@ class IncomeProvider with ChangeNotifier {
             date = value;
             break;
         }
-
-        print('burada');
       });
       incomeData.add(IncomeModel(
           id: id,

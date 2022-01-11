@@ -1,3 +1,4 @@
+import 'package:gelir_gider/example.dart';
 import 'package:gelir_gider/providers/income_provider.dart';
 import '../providers/income_provider.dart';
 import './add_expense/add_income.dart';
@@ -31,6 +32,12 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Home Page'),
         actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Example()));
+              },
+              icon: const Icon(Icons.flag)),
           IconButton(
             onPressed: () {
               AddExpense().getDialog(context);

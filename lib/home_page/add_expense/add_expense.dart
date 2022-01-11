@@ -21,6 +21,7 @@ class AddExpense extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       TextFormField(
+                        keyboardType: TextInputType.number,
                         controller: amount,
                         decoration: InputDecoration(
                           label: Text('Amount'),
