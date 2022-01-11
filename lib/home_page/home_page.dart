@@ -10,6 +10,7 @@ import 'package:gelir_gider/home_page/expense-card.dart';
 import 'package:graphic/graphic.dart';
 import 'package:provider/provider.dart';
 import '../database/database_provider_expenses.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -151,11 +152,20 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          AddIncome().getDialog(context);
-        },
-        child: Icon(Icons.add),
+      floatingActionButton: SpeedDial(
+        child: const Icon(Icons.menu),
+        overlayOpacity: 0,
+        children: [
+          SpeedDialChild(
+            label: 'Expenses',
+            child: const Icon(Icons.attach_money_sharp),
+            onTap: () {},
+          ),
+          SpeedDialChild(
+              label: 'Incomes',
+              child: const Icon(Icons.money_off_sharp),
+              onTap: () {}),
+        ],
       ),
     );
   }

@@ -26,37 +26,45 @@ class ExpenseCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
         horizontal: 10,
       ),
-      child: Card(
-        elevation: 4,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Icon(Icons.card_travel_outlined),
-                Container(
-                  alignment: Alignment.center,
-                  width: 70,
-                  child: Text(_checkTag()),
-                ),
-              ],
-            ),
-            Container(
-              height: 50,
-              child: Column(
+      child: Dismissible(
+        key: Key(tag),
+        background: Container(
+          color: Colors.red,
+          margin: EdgeInsets.symmetric(vertical: 8),
+        ),
+        direction: DismissDirection.endToStart,
+        child: Card(
+          elevation: 4,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const SizedBox(height: 10),
-                  Text('$amount'),
-                  Text(
-                    DateFormat('dd/MM/yyyy').format(time),
-                    style: TextStyle(fontSize: 12),
-                  )
+                  const Icon(Icons.card_travel_outlined),
+                  Container(
+                    alignment: Alignment.center,
+                    width: 70,
+                    child: Text(_checkTag()),
+                  ),
                 ],
               ),
-            ),
-          ],
+              Container(
+                height: 50,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const SizedBox(height: 10),
+                    Text('$amount'),
+                    Text(
+                      DateFormat('dd/MM/yyyy').format(time),
+                      style: TextStyle(fontSize: 12),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
