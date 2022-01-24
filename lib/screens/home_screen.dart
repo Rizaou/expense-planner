@@ -42,6 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final expensesProvider = Provider.of<ExpenseProvider>(context);
+    expensesProvider.getMonthlyExpenses
+        .then((value) => print('values' + value.toString()));
 
     return Scaffold(
       appBar: AppBar(
@@ -61,8 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: FutureBuilder(
-          future:
-              expensesProvider.getExpenses.then((value) => widget.data = value),
+          future: expensesProvider.getMonthlyExpenses
+              .then((value) => widget.data = value),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Text('Error');

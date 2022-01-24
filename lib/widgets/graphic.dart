@@ -38,7 +38,7 @@ class _MyChartState extends State<MyChart> {
     }
 
     return FutureBuilder(
-      future: expenseProvider.getExpenses
+      future: expenseProvider.getMonthlyExpenses
           .then((value) => widget.expensesData = value),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

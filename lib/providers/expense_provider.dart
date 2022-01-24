@@ -13,6 +13,8 @@ class ExpenseProvider with ChangeNotifier {
     // {'type': 'eğlence', 'amount': 100.0},
   ];
 
+  //List<Map<String, dynamic>> _monthly_expenses = [];
+
   // Get
   Future<List<Map<dynamic, dynamic>>> get getExpenses async {
     List<Map<String, dynamic>> list = await DBHelperExpenses.getAllData();
@@ -22,6 +24,22 @@ class ExpenseProvider with ChangeNotifier {
 
     _expense_data = list;
     return [...list];
+  }
+
+  Future<List<Map<dynamic, dynamic>>> get getMonthlyExpenses async {
+    List<Map<String, dynamic>> list = await DBHelperExpenses.getAllData();
+    List<Map<String, dynamic>> temp = [];
+
+    for (int i = 0; i < 31 && i < list.length; i++) {
+      final day = DateTime.now().subtract(Duration(days: i));
+      if (DateTime.parse(list[i]['date']).month == DateTime.now().month) {
+        temp.add(list[i]);
+      }
+    }
+
+    _expense_data = temp;
+
+    return [..._expense_data];
   }
 
   int get length => _expense_data.length;

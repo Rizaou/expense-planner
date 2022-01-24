@@ -27,7 +27,7 @@ class _DetailedSCreenState extends State<DetailedSCreen> {
       child: Column(
         children: [
           FutureBuilder(
-            future: widget.expenseProvider.getExpenses
+            future: widget.expenseProvider.getMonthlyExpenses
                 .then((value) => expensesData = value),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

@@ -21,9 +21,10 @@ class AddIncome extends StatelessWidget {
                     children: [
                       TextFormField(
                         controller: titleController,
-                        decoration: const InputDecoration(label: Text('title')),
+                        decoration: const InputDecoration(label: Text('Title')),
                       ),
                       TextFormField(
+                        keyboardType: TextInputType.number,
                         controller: amountController,
                         decoration:
                             const InputDecoration(label: Text('Amount')),

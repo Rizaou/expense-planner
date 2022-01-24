@@ -28,11 +28,11 @@ class _MainIncomeChartState extends State<MainIncomeChart> {
 
     double reduceGreen = reduceBlue / 2;
 
-    print(
-        'ratio : $ratio , 255-ratio  : ${255 - ratio.round()}, /2 : ${(255 - ratio.round()) / 2}');
+    // print(
+    //   'ratio : $ratio , 255-ratio  : ${255 - ratio.round()}, /2 : ${(255 - ratio.round()) / 2}');
     Color cl = Color.fromARGB(255, 255, reduceGreen.round(),
         reduceBlue.round()); //! decrease blue, green
-    return cl;
+    return Colors.white;
   }
 
   @override
