@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gelir_gider/database/database_provider_expenses.dart';
@@ -13,12 +15,16 @@ class ExpenseProvider with ChangeNotifier {
 
   // Get
   Future<List<Map<dynamic, dynamic>>> get getExpenses async {
-    List<Map<String, dynamic>> list = await DBHelperExpenses.getData();
-    //print('liste : ' + list.toString());
+    List<Map<String, dynamic>> list = await DBHelperExpenses.getAllData();
+    if (list.isEmpty) {
+      print('Expense Provider => getExpenses => list ist empty.');
+    }
+
     _expense_data = list;
     return [...list];
   }
 
+  int get length => _expense_data.length;
   // Functions
   void addData(ExpenseModel data) {
     var _data = data;
@@ -29,7 +35,7 @@ class ExpenseProvider with ChangeNotifier {
         //     List<Map<String, dynamic>>.from(_expense_data);
         // newMap.add({'type': _data.type, 'amount': _data.amount});
         // _expense_data = newMap;
-        _expense_data.add({'type': _data.type, 'amount': _data.amount});
+        _expense_data.add({'title': _data.title, 'amount': _data.amount});
       } catch (error) {
         print(error.toString());
       }
@@ -39,14 +45,14 @@ class ExpenseProvider with ChangeNotifier {
   }
 
   Future<void> getDataFromDataBase() async {
-    var data = await DBHelperExpenses.getData();
+    var data = await DBHelperExpenses.getAllData();
   }
 
   Future<void> _setDataToDataBase(ExpenseModel data) async {
     DBHelperExpenses.insert(data);
   }
 
-  double getTotalExpense() {
+  double getSumOfExpenses() {
     double sum = 0;
     _expense_data.forEach((element) {
       element.forEach((key, value) {

@@ -25,21 +25,16 @@ class DBHelperExpenses {
     final db = await DBHelperExpenses._database();
     db.insert(
       _TABLE_NAME_EXPENSES,
-      {
-        'title': data.type,
-        'amount': data.amount,
-        'desc': data.description,
-        'date': data.date.toString(),
-      },
+      data.toJson,
     );
   }
 
-  static Future<List<Map<String, dynamic>>> getData() async {
+  static Future<List<Map<String, dynamic>>> getAllData() async {
     final db = await DBHelperExpenses._database();
     return db.query(_TABLE_NAME_EXPENSES);
   }
 
-  static Future<void> deleteData(String tableName, ExpenseModel data) async {}
+  //static Future<void> deleteData(String tableName, ExpenseModel data) async {}
 
   static void temp(String va, Function(String) f) {
     int v = 0;

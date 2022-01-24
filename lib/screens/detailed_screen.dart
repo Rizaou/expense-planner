@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gelir_gider/home_page/expense-card.dart';
+import 'package:gelir_gider/widgets/expense-card.dart';
 import 'package:provider/provider.dart';
 import '../providers/expense_provider.dart';
 import '../providers/income_provider.dart';
@@ -103,7 +103,7 @@ class _DetailedSCreenState extends State<DetailedSCreen> {
                             return const Text('Waiting');
                           } else {
                             return Text(
-                              '${totalIncome} / ${widget.expenseProvider.getTotalExpense()}',
+                              '${totalIncome} / ${widget.expenseProvider.getSumOfExpenses()}',
                               textAlign: TextAlign.center,
                             );
                           }
@@ -115,9 +115,9 @@ class _DetailedSCreenState extends State<DetailedSCreen> {
                       child: Column(
                           children: expensesData
                               .map((e) => ExpenseCard(
-                                  tag: e['title'].toString(),
+                                  title: e['title'].toString(),
                                   amount: e['amount'],
-                                  time: DateTime.now()))
+                                  date: DateTime.now()))
                               .toList()),
                     ),
                   ],

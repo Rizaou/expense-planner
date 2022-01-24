@@ -3,20 +3,20 @@ import 'package:intl/intl.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class ExpenseCard extends StatelessWidget {
-  final String tag;
+  final String title;
   final double amount;
-  final DateTime time;
+  final DateTime date;
   const ExpenseCard(
-      {Key? key, required this.tag, required this.amount, required this.time})
+      {Key? key, required this.title, required this.amount, required this.date})
       : super(key: key);
 
   String _checkTag() {
-    if (tag.length > 10) {
-      String yeni = tag.substring(0, 7);
+    if (title.length > 10) {
+      String yeni = title.substring(0, 7);
 
       return (yeni + '...');
     } else {
-      return tag;
+      return title;
     }
   }
 
@@ -27,7 +27,7 @@ class ExpenseCard extends StatelessWidget {
         horizontal: 10,
       ),
       child: Dismissible(
-        key: Key(tag),
+        key: Key(title),
         background: Container(
           color: Colors.red,
           margin: EdgeInsets.symmetric(vertical: 8),
@@ -57,7 +57,7 @@ class ExpenseCard extends StatelessWidget {
                     const SizedBox(height: 10),
                     Text('$amount'),
                     Text(
-                      DateFormat('dd/MM/yyyy').format(time),
+                      DateFormat('dd/MM/yyyy').format(date),
                       style: TextStyle(fontSize: 12),
                     )
                   ],
