@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:gelir_gider/providers/expense_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:provider/provider.dart';
 
 class ExpenseCard extends StatelessWidget {
+  final int id;
   final String title;
   final double amount;
   final DateTime date;
   const ExpenseCard(
-      {Key? key, required this.title, required this.amount, required this.date})
+      {Key? key,
+      required this.title,
+      required this.amount,
+      required this.date,
+      required this.id})
       : super(key: key);
 
   String _checkTag() {
@@ -22,12 +29,14 @@ class ExpenseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final expenseProvider = Provider.of<ExpenseProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 10,
       ),
       child: Dismissible(
-        key: Key(title),
+        onDismissed: (direction) => expenseProvider.deleteData(id),
+        key: Key(id.toString()),
         background: Container(
           color: Colors.red,
           margin: EdgeInsets.symmetric(vertical: 8),

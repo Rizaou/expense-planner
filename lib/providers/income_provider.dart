@@ -15,7 +15,7 @@ class IncomeProvider with ChangeNotifier {
     data.forEach((element) {
       late int id;
       late double income;
-      String? desc;
+      late String desc;
       late String date;
       element.forEach((key, value) {
         switch (key) {
@@ -35,10 +35,11 @@ class IncomeProvider with ChangeNotifier {
         }
       });
       incomeData.add(IncomeModel(
-          id: id,
-          income: income,
-          date: DateTime.parse(date),
-          description: desc != null ? desc : 'yok'));
+        id: id,
+        income: income,
+        date: DateTime.parse(date),
+        description: desc,
+      ));
     });
     return incomeData;
   }

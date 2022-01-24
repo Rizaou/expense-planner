@@ -64,4 +64,9 @@ class ExpenseProvider with ChangeNotifier {
 
     return sum;
   }
+
+  Future<void> deleteData(int id) async {
+    await DBHelperExpenses.deleteData(id: id);
+    notifyListeners();
+  }
 }

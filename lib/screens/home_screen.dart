@@ -1,6 +1,7 @@
 import 'package:gelir_gider/example.dart';
 import 'package:gelir_gider/providers/expense_provider.dart';
 import 'package:gelir_gider/widgets/custom_action_button.dart';
+import 'package:gelir_gider/widgets/dialog_add_income.dart';
 import 'package:gelir_gider/widgets/expense-card.dart';
 import 'package:gelir_gider/widgets/graphic.dart';
 import 'package:gelir_gider/widgets/main_incomes_chart.dart';
@@ -48,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                focus(8);
+                AddIncome().getDialog(context);
               },
               icon: const Icon(Icons.flag)),
           IconButton(
@@ -79,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     return MainIncomeChart();
                   } else {
                     var card = ExpenseCard(
+                      id: widget.data[index - 2]['id'],
                       title: widget.data[index - 2]['title'],
                       amount: widget.data[index - 2]['amount'],
                       date: DateTime.parse(widget.data[index - 2]['date']),

@@ -34,7 +34,16 @@ class DBHelperExpenses {
     return db.query(_TABLE_NAME_EXPENSES);
   }
 
-  //static Future<void> deleteData(String tableName, ExpenseModel data) async {}
+  static Future<void> deleteData({ExpenseModel? data, int? id}) async {
+    if (id != null) {
+      final db = await DBHelperExpenses._database();
+
+      await db
+          .rawDelete("DELETE  FROM ${_TABLE_NAME_EXPENSES} where id = ${id}");
+
+      print('deleted');
+    } else if (data != null) {}
+  }
 
   static void temp(String va, Function(String) f) {
     int v = 0;

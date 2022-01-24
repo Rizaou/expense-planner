@@ -30,11 +30,7 @@ class DBHelperIncomes {
   static Future<void> addData(IncomeModel data) async {
     final db = await DBHelperIncomes._database();
 
-    int val = await db.insert(_TABLE_NAME_INCOME, {
-      'income': data.income,
-      'desc': data.description,
-      'date': data.date.toString(),
-    });
+    int val = await db.insert(_TABLE_NAME_INCOME, data.toJson);
 
     if (val == 0) print('DB Incomes has a error : ' + val.toString());
   }

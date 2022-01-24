@@ -115,6 +115,7 @@ class _DetailedSCreenState extends State<DetailedSCreen> {
                       child: Column(
                           children: expensesData
                               .map((e) => ExpenseCard(
+                                  id: e['id'],
                                   title: e['title'].toString(),
                                   amount: e['amount'],
                                   date: DateTime.now()))
