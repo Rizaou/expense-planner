@@ -62,4 +62,10 @@ class IncomeProvider with ChangeNotifier {
     //print('Sum : ' + sum.toString());
     //return sum;
   }
+
+  void deleteData(int id) {
+    DBHelperIncomes.deleteData(id).then((value) {
+      notifyListeners();
+    });
+  }
 }

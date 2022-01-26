@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gelir_gider/methods/global_values.dart';
+import 'package:gelir_gider/providers/program_settings_provider.dart';
 import 'package:graphic/graphic.dart';
 import 'package:provider/provider.dart';
 import '../providers/expense_provider.dart';
@@ -18,6 +20,7 @@ class _MyChartState extends State<MyChart> {
   Widget build(BuildContext context) {
     final expenseProvider = Provider.of<ExpenseProvider>(context, listen: true);
     final incomeProvider = Provider.of<IncomeProvider>(context, listen: true);
+    final programSettings = Provider.of<ProgramSettings>(context);
 
     Widget _emptyGraph(String title) {
       return Container(
@@ -31,7 +34,7 @@ class _MyChartState extends State<MyChart> {
             width: double.infinity,
             child: Text(title),
           ),
-          elevation: 4,
+          elevation: global_elevation_value,
           shape: CircleBorder(),
         ),
       );
@@ -55,17 +58,17 @@ class _MyChartState extends State<MyChart> {
                 width: double.infinity,
                 child: const Text('There is an error.'),
               ),
-              elevation: 4,
+              elevation: global_elevation_value,
               shape: CircleBorder(),
             ),
           );
         } else {
           return widget.expensesData.isEmpty
-              ? _emptyGraph("No Transactions added.")
+              ? _emptyGraph(programSettings.tr_text["no_transaction"])
               : Container(
                   height: 400,
                   child: Card(
-                    elevation: 4,
+                    elevation: global_elevation_value,
                     shape: const CircleBorder(),
                     child: Chart(
                       data: widget.expensesData, //expensesData

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gelir_gider/methods/expenses_db_helper.dart';
+import 'package:gelir_gider/database/database_provider_incomes.dart';
+import 'package:gelir_gider/methods/global_values.dart';
 import 'package:gelir_gider/providers/expense_provider.dart';
 import 'package:gelir_gider/providers/income_provider.dart';
+import 'package:gelir_gider/providers/program_settings_provider.dart';
 import 'package:gelir_gider/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +16,6 @@ void main() => runApp(MyHomePage());
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print('${DBHelperExpens}');
-    // DBHelperExpenses.temp();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -23,6 +23,9 @@ class MyHomePage extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => IncomeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProgramSettings(),
         ),
       ],
       child: MaterialApp(

@@ -1,19 +1,25 @@
 import 'package:gelir_gider/example.dart';
+import 'package:gelir_gider/models/expense_model.dart';
+import 'package:gelir_gider/models/income_model.dart';
 import 'package:gelir_gider/providers/expense_provider.dart';
+import 'package:gelir_gider/providers/income_provider.dart';
 import 'package:gelir_gider/widgets/custom_action_button.dart';
 import 'package:gelir_gider/widgets/dialog_add_income.dart';
 import 'package:gelir_gider/widgets/expense-card.dart';
 import 'package:gelir_gider/widgets/graphic.dart';
+import 'package:gelir_gider/widgets/income_card.dart';
 import 'package:gelir_gider/widgets/main_incomes_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:flutter/material.dart';
 import '../widgets/dialog_add_expense.dart';
+import '../providers/program_settings_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   final _HomeScreenState screen = _HomeScreenState();
 
-  List<Map<dynamic, dynamic>> data = [];
+  List<Map<dynamic, dynamic>> expenseData = [];
+  List<IncomeModel> incomeData = [];
 
   void moveToGraph() {
     screen.focus(0);
@@ -42,12 +48,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final expensesProvider = Provider.of<ExpenseProvider>(context);
-    expensesProvider.getMonthlyExpenses
-        .then((value) => print('values' + value.toString()));
-
+    final incomeProvider = Provider.of<IncomeProvider>(context);
+    final programSettings = Provider.of<ProgramSettings>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Page'),
+        title: Text(programSettings.tr_text["home_page"]),
         actions: [
           IconButton(
               onPressed: () {
@@ -64,28 +69,45 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: FutureBuilder(
           future: expensesProvider.getMonthlyExpenses
-              .then((value) => widget.data = value),
+              .then((value) => widget.expenseData = value)
+              .then((value) => incomeProvider.incomes)
+              .then((value) {
+            widget.incomeData = value;
+          }),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text('Error');
+              return Text(programSettings.tr_text["error"]);
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Text('loading');
             } else {
               return ScrollablePositionedList.builder(
                 itemScrollController: control,
-                itemCount: widget.data.length + 2,
+                itemCount:
+                    widget.expenseData.length + 2 + widget.incomeData.length,
                 itemBuilder: (context, index) {
                   if (index == 0) //* insex 0 = Chart and total incomes.
                   {
                     return MyChart();
                   } else if (index == 1) {
                     return MainIncomeChart();
+                  } else if (index >= widget.expenseData.length + 2) {
+                    return IncomeCard(
+                      id: widget
+                          .incomeData[index - widget.expenseData.length - 2].id,
+                      amount: widget
+                          .incomeData[index - widget.expenseData.length - 2]
+                          .income,
+                      title: widget
+                          .incomeData[index - widget.expenseData.length - 2]
+                          .description,
+                    );
                   } else {
                     var card = ExpenseCard(
-                      id: widget.data[index - 2]['id'],
-                      title: widget.data[index - 2]['title'],
-                      amount: widget.data[index - 2]['amount'],
-                      date: DateTime.parse(widget.data[index - 2]['date']),
+                      id: widget.expenseData[index - 2]['id'],
+                      title: widget.expenseData[index - 2]['title'],
+                      amount: widget.expenseData[index - 2]['amount'],
+                      date:
+                          DateTime.parse(widget.expenseData[index - 2]['date']),
                     );
 
                     return card;

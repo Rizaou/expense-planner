@@ -27,6 +27,15 @@ class DBHelperIncomes {
     );
   }
 
+  static Future<void> deleteData(int id) async {
+    final db = await DBHelperIncomes._database();
+
+    int val =
+        await db.rawDelete("DELETE from $_TABLE_NAME_INCOME where id = $id");
+
+    print("val : $val");
+  }
+
   static Future<void> addData(IncomeModel data) async {
     final db = await DBHelperIncomes._database();
 
@@ -38,5 +47,26 @@ class DBHelperIncomes {
   static Future<List<Map<dynamic, dynamic>>> getAllData() async {
     final db = await DBHelperIncomes._database();
     return db.query(_TABLE_NAME_INCOME);
+  }
+
+  static void getIncome(
+      {required String income, required Function(List<IncomeModel>) function}) {
+    final List<IncomeModel> list = [];
+    final db = DBHelperIncomes._database().then((value) {
+      final row = value
+          .rawQuery(
+              "Select * From ${_TABLE_NAME_INCOME} where income like '%$income%' ")
+          .then((value) => value.forEach((element) {
+                var model = IncomeModel(
+                    id: element['id'] as int,
+                    income: element['income'] as double,
+                    date: element['date'] as DateTime);
+                list.add(model);
+              }));
+    });
+
+    if (list.isNotEmpty) {
+      function(list);
+    }
   }
 }

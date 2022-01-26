@@ -16,4 +16,10 @@ class IncomeModel {
         'desc': description,
         'date': date.toString(),
       };
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "id : ${this.id} , desc :$description , income : $income, : date $date";
+  }
 }
