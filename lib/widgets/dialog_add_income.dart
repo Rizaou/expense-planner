@@ -31,12 +31,13 @@ class AddIncome extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          incomeProvider.addIncome(IncomeModel(
-                              id: 0,
-                              income: double.parse(
-                                  amountController.text.toString()),
-                              description: titleController.text.toString(),
-                              date: DateTime.now()));
+                          incomeProvider.addIncome(
+                              data: IncomeModel(
+                                  id: 0,
+                                  income: double.parse(
+                                      amountController.text.toString()),
+                                  description: titleController.text.toString(),
+                                  date: DateTime.now()));
                         },
                         child: const Text('Add'),
                       ),

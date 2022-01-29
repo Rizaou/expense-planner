@@ -1,4 +1,5 @@
 import 'package:gelir_gider/example.dart';
+import 'package:gelir_gider/methods/global_values.dart';
 import 'package:gelir_gider/models/expense_model.dart';
 import 'package:gelir_gider/models/income_model.dart';
 import 'package:gelir_gider/providers/expense_provider.dart';
@@ -52,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final programSettings = Provider.of<ProgramSettings>(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: scaffoldBGColor,
         title: Text(programSettings.tr_text["home_page"]),
         actions: [
           IconButton(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gelir_gider/database/database_providder_program_settings.dart';
 import 'package:gelir_gider/database/database_provider_incomes.dart';
 import 'package:gelir_gider/models/income_model.dart';
 import 'package:provider/provider.dart';
@@ -44,9 +45,19 @@ class IncomeProvider with ChangeNotifier {
     return incomeData;
   }
 
-  Future<void> addIncome(IncomeModel data) async {
-    DBHelperIncomes.addData(data);
-    notifyListeners();
+  Future<void> addIncome({required IncomeModel data, bool? isFirstTime}) async {
+    if (isFirstTime != null) {
+      if (isFirstTime) {
+        DBHelperProgramSettings.userIn();
+        DBHelperIncomes.addData(data);
+      } else {
+        DBHelperIncomes.addData(data);
+        notifyListeners();
+      }
+    } else {
+      DBHelperIncomes.addData(data);
+      notifyListeners();
+    }
   }
 
   Future<double> getTotalIncome() async {

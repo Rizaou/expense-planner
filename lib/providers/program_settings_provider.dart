@@ -42,6 +42,66 @@ class ProgramSettings with ChangeNotifier {
 
   Languages get getLanguage => _prog_lang;
 
+  List<TextSpan> get firstPageText1 => [
+        TextSpan(
+          text: "WELCOME\n",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        TextSpan(
+          text: "TO\n",
+        ),
+        TextSpan(
+          text: "THE APP",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ];
+  List<TextSpan> get firstPageText2 => [
+        TextSpan(
+          text: "WE WILL HELP YOU\n",
+          //style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        TextSpan(
+          text: "TO\n",
+        ),
+        TextSpan(
+          text: "CONTROL YOUR\n",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        TextSpan(
+          text: "MONEY\n",
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            decoration: TextDecoration.underline,
+          ),
+        ),
+      ];
+
+  List<TextSpan> get secontPageText2 => [
+        TextSpan(
+          text: "LET'S ENTER YOUR INCOME(S)\n",
+          style: TextStyle(
+            fontSize: 20,
+          ),
+        ),
+        // TextSpan(
+        //   text: "Please give a name for your\n",
+        //   style: TextStyle(),
+        // ),
+        // TextSpan(
+        //   text: "Income\n",
+        //   style: TextStyle(),
+        // ),
+      ];
+  List<TextSpan> get thirtPageText3 => [
+        TextSpan(
+          text: "GOOD TO GO!",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ];
+
   void changeLanguage(Languages ln) {
     switch (ln) {
       case Languages.tr:
