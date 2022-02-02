@@ -57,8 +57,8 @@ class DBHelperProgramSettings {
     print('user in val : $val');
   }
 
-  // static Future<void> get exe async {
-  //   final db = await DBHelperProgramSettings._database();
-  //   await db.delete(_TABLE_NAME, where: '_id = ?', whereArgs: [2]);
-  // }
+  static Future<void> get exe async {
+    final db = await DBHelperProgramSettings._database();
+    await db.execute("");
+  }
 }

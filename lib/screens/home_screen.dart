@@ -5,6 +5,7 @@ import 'package:gelir_gider/models/income_model.dart';
 import 'package:gelir_gider/providers/expense_provider.dart';
 import 'package:gelir_gider/providers/income_provider.dart';
 import 'package:gelir_gider/widgets/custom_action_button.dart';
+import 'package:gelir_gider/widgets/detail_widget.dart';
 import 'package:gelir_gider/widgets/dialog_add_income.dart';
 import 'package:gelir_gider/widgets/expense-card.dart';
 import 'package:gelir_gider/widgets/graphic.dart';
@@ -103,7 +104,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           .incomeData[index - widget.expenseData.length - 2]
                           .description,
                     );
-                  } else {
+                  }
+                  // else if (index >= widget.expenseData.length + 3)
+                  // {
+                  //   return DetailWidget();
+                  // }
+                  else {
                     var card = ExpenseCard(
                       id: widget.expenseData[index - 2]['id'],
                       title: widget.expenseData[index - 2]['title'],

@@ -133,7 +133,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
               height: mediaQuery.size.height / 4,
             ),
             Text(
-              "Please Give A Name for Your Income.",
+              "Please Give A Name To Your Income.",
               style: TextStyle(
                 color: Colors.white,
               ),

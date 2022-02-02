@@ -11,9 +11,6 @@ import 'package:provider/provider.dart';
 import './database/database_providder_program_settings.dart';
 
 //TODO : Make detail widget
-//TODO : Fix the color change problem when delete an expense
-//TODO : The graph can't have more than 10 items.
-
 void main() => runApp(MyHomePage());
 
 class MyHomePage extends StatelessWidget {
