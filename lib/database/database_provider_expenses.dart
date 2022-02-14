@@ -48,7 +48,7 @@ class DBHelperExpenses {
   static void temp(String va, Function(String) f) {
     int v = 0;
     DBHelperExpenses._database().then((value) {
-      print('v = $v');
+      // print('v = $v');
       v++;
       List<Map<dynamic, dynamic>> x;
       value
@@ -60,7 +60,7 @@ class DBHelperExpenses {
         x.forEach((element) {
           element.forEach((key, value) {
             if (key == 'title') {
-              print('returned value : ' + value.toString());
+              // print('returned value : ' + value.toString());
               f(value);
             }
           });

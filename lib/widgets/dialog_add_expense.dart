@@ -37,10 +37,9 @@ class AddExpense extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {
                           if (!amount.text.isEmpty) {
-                            print(
-                                "Amount : ${amount.text} ,title : ${type.text} , time : ${DateTime.now()}");
                             provider.addData(
                               ExpenseModel(
+                                id: 0,
                                 amount: double.parse(amount.text),
                                 title: type.text,
                                 date: DateTime.now(),

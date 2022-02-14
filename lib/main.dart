@@ -16,7 +16,6 @@ void main() => runApp(MyHomePage());
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // DBHelperProgramSettings.isFirstTime;
     Widget mainScreen = Center(
       child: CircularProgressIndicator(),
     );
@@ -34,8 +33,8 @@ class MyHomePage extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          scaffoldBackgroundColor: scaffoldBGColor,
-        ),
+            //scaffoldBackgroundColor: scaffoldBGColor,
+            ),
         debugShowCheckedModeBanner: false,
         home: FutureBuilder(
           future: getFirstScreen.then((value) => mainScreen = value),

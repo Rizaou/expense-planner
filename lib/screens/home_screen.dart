@@ -16,11 +16,12 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:flutter/material.dart';
 import '../widgets/dialog_add_expense.dart';
 import '../providers/program_settings_provider.dart';
+import '../widgets/create_main_list.dart';
 
 class HomeScreen extends StatefulWidget {
   final _HomeScreenState screen = _HomeScreenState();
 
-  List<Map<dynamic, dynamic>> expenseData = [];
+  List<ExpenseModel> expenseData = [];
   List<IncomeModel> incomeData = [];
 
   void moveToGraph() {
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final programSettings = Provider.of<ProgramSettings>(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: scaffoldBGColor,
+        //backgroundColor: scaffoldBGColor,
         title: Text(programSettings.tr_text["home_page"]),
         actions: [
           IconButton(
@@ -83,44 +84,11 @@ class _HomeScreenState extends State<HomeScreen> {
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Text('loading');
             } else {
-              return ScrollablePositionedList.builder(
-                itemScrollController: control,
-                itemCount:
-                    widget.expenseData.length + 2 + widget.incomeData.length,
-                itemBuilder: (context, index) {
-                  if (index == 0) //* insex 0 = Chart and total incomes.
-                  {
-                    return MyChart();
-                  } else if (index == 1) {
-                    return MainIncomeChart();
-                  } else if (index >= widget.expenseData.length + 2) {
-                    return IncomeCard(
-                      id: widget
-                          .incomeData[index - widget.expenseData.length - 2].id,
-                      amount: widget
-                          .incomeData[index - widget.expenseData.length - 2]
-                          .income,
-                      title: widget
-                          .incomeData[index - widget.expenseData.length - 2]
-                          .description,
-                    );
-                  }
-                  // else if (index >= widget.expenseData.length + 3)
-                  // {
-                  //   return DetailWidget();
-                  // }
-                  else {
-                    var card = ExpenseCard(
-                      id: widget.expenseData[index - 2]['id'],
-                      title: widget.expenseData[index - 2]['title'],
-                      amount: widget.expenseData[index - 2]['amount'],
-                      date:
-                          DateTime.parse(widget.expenseData[index - 2]['date']),
-                    );
-
-                    return card;
-                  }
-                },
+              print("Count ");
+              return CreateMainList(
+                control: control,
+                expenseData: widget.expenseData,
+                incomeData: widget.incomeData,
               );
             }
           }),
@@ -130,109 +98,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-// SingleChildScrollView(
-//         child: Column(
-//           children: [
-//             FutureBuilder(
-//               future: expenseProvider.getExpenses
-//                   .then((value) => expensesData = value),
-//               builder: (context, snapshot) {
-//                 if (snapshot.connectionState == ConnectionState.waiting) {
-//                   return Container(
-//                     alignment: Alignment.center,
-//                     height: 400,
-//                     width: double.infinity,
-//                     child: Card(
-//                       child: Container(
-//                         alignment: Alignment.center,
-//                         height: 400,
-//                         width: double.infinity,
-//                         child: const Text('Loading'),
-//                       ),
-//                       elevation: 4,
-//                       shape: CircleBorder(),
-//                     ),
-//                   );
-//                 } else if (snapshot.hasError) {
-//                   return const Text('There is a error');
-//                 } else {
-//                   return Column(
-//                     children: [
-//                       Container(
-//                         height: 400,
-//                         child: Card(
-//                           elevation: 4,
-//                           shape: const CircleBorder(),
-//                           child: Chart(
-//                             data: expensesData, //expensesData
-//                             transforms: [
-//                               Proportion(variable: 'amount', as: 'percent')
-//                             ],
-//                             variables: {
-//                               'title': Variable(
-//                                   accessor: (Map map) =>
-//                                       map['title'] as String),
-//                               'amount': Variable(
-//                                   accessor: (Map map) => map['amount'] as num),
-//                             },
-//                             coord: PolarCoord(transposed: true, dimCount: 1),
-//                             elements: [
-//                               IntervalElement(
-//                                 position: Varset('percent') / Varset('title'),
-//                                 label: LabelAttr(
-//                                     encoder: (tuple) => Label(
-//                                           '${tuple['title']}\n${tuple['amount']}',
-//                                           LabelStyle(Defaults.runeStyle),
-//                                         )),
-//                                 color: ColorAttr(
-//                                     variable: 'title',
-//                                     values: Defaults.colors10),
-//                                 modifiers: [StackModifier()],
-//                               )
-//                             ],
-//                           ),
-//                         ),
-//                       ),
-//                       Container(
-//                         padding: EdgeInsets.symmetric(horizontal: 10),
-//                         width: double.infinity,
-//                         child: Card(
-//                             child: FutureBuilder(
-//                           future: incomeProvider.getTotalIncome().then((value) {
-//                             totalIncome = value;
-//                             // print('Total : $totalIncome , value : $value');
-//                           }),
-//                           builder: (context, snapshot) {
-//                             if (snapshot.hasError) {
-//                               return const Text('Has an error');
-//                             } else if (snapshot.connectionState ==
-//                                 ConnectionState.waiting) {
-//                               return const Text('Waiting');
-//                             } else {
-//                               return Text(
-//                                 '${totalIncome} / ${expenseProvider.getTotalExpense()}',
-//                                 textAlign: TextAlign.center,
-//                               );
-//                             }
-//                           },
-//                         )),
-//                       ),
-//                       Container(
-//                         width: double.infinity,
-//                         child: Column(
-//                             children: expensesData
-//                                 .map((e) => ExpenseCard(
-//                                     tag: e['title'].toString(),
-//                                     amount: e['amount'],
-//                                     time: DateTime.now()))
-//                                 .toList()),
-//                       ),
-//                     ],
-//                   );
-//                 }
-//               },
-//             ),
-//           ],
-//         ),
-//       )

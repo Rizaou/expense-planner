@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gelir_gider/methods/global_values.dart';
+import 'package:gelir_gider/models/expense_model.dart';
 import 'package:gelir_gider/providers/program_settings_provider.dart';
+import 'package:gelir_gider/widgets/my_custom_graph.dart';
 import 'package:graphic/graphic.dart';
 import 'package:provider/provider.dart';
 import '../providers/expense_provider.dart';
@@ -8,7 +10,7 @@ import '../providers/income_provider.dart';
 
 class MyChart extends StatefulWidget {
   MyChart({Key? key}) : super(key: key);
-  late List<Map<dynamic, dynamic>> expensesData = [];
+  late List<ExpenseModel> expensesData = [];
 
   @override
   _MyChartState createState() => _MyChartState();
@@ -66,40 +68,39 @@ class _MyChartState extends State<MyChart> {
           return widget.expensesData.isEmpty
               ? _emptyGraph(programSettings.tr_text["no_transaction"])
               : Container(
-                  height: 400,
-                  child: Card(
-                    elevation: global_elevation_value,
-                    shape: const CircleBorder(),
-                    child: Chart(
-                      data: widget.expensesData, //expensesData
-                      transforms: [
-                        Proportion(variable: 'amount', as: 'percent')
-                      ],
-                      variables: {
-                        'title': Variable(
-                            accessor: (Map map) => map['title'] as String),
-                        'amount': Variable(
-                            accessor: (Map map) => map['amount'] as num),
-                      },
-                      coord: PolarCoord(transposed: true, dimCount: 1),
-                      elements: [
-                        IntervalElement(
-                          position: Varset('percent') / Varset('title'),
-                          label: LabelAttr(
-                              encoder: (tuple) => Label(
-                                    '${tuple['title']}\n${tuple['amount']}',
-                                    LabelStyle(Defaults.runeStyle),
-                                  )),
-                          color: ColorAttr(
-                              variable: 'title', values: Defaults.colors10),
-                          modifiers: [StackModifier()],
-                        )
-                      ],
-                    ),
-                  ),
+                  // height: 400,
+                  child: Graph(),
                 );
         }
       },
     );
   }
 }
+
+
+// Chart(
+//                       data: widget.expensesData, //expensesData
+//                       transforms: [
+//                         Proportion(variable: 'amount', as: 'percent')
+//                       ],
+//                       variables: {
+//                         'title': Variable(
+//                             accessor: (Map map) => map['title'] as String),
+//                         'amount': Variable(
+//                             accessor: (Map map) => map['amount'] as num),
+//                       },
+//                       coord: PolarCoord(transposed: true, dimCount: 1),
+//                       elements: [
+//                         IntervalElement(
+//                           position: Varset('percent') / Varset('title'),
+//                           label: LabelAttr(
+//                               encoder: (tuple) => Label(
+//                                     '${tuple['title']}\n${tuple['amount']}',
+//                                     LabelStyle(Defaults.runeStyle),
+//                                   )),
+//                           color: ColorAttr(
+//                               variable: 'title', values: Defaults.colors10),
+//                           modifiers: [StackModifier()],
+//                         )
+//                       ],
+//                     ),

@@ -5,7 +5,7 @@ import 'package:gelir_gider/models/expense_model.dart';
 
 class ExpenseProvider with ChangeNotifier {
   // ignore: prefer_final_fields
-  List<Map<String, dynamic>> _expense_data = [
+  List<ExpenseModel> _expense_data = [
     // {'type': 'market', 'amount': 100.0},
     // {'type': 'okul', 'amount': 50.0},
     // {'type': 'eğlence', 'amount': 100.0},
@@ -14,24 +14,43 @@ class ExpenseProvider with ChangeNotifier {
   //List<Map<String, dynamic>> _monthly_expenses = [];
 
   // Get
-  Future<List<Map<dynamic, dynamic>>> get getExpenses async {
+  Future<List<ExpenseModel>> get getExpenses async {
     List<Map<String, dynamic>> list = await DBHelperExpenses.getAllData();
     if (list.isEmpty) {
       print('Expense Provider => getExpenses => list ist empty.');
     }
 
-    _expense_data = list;
-    return [...list];
+    List<ExpenseModel> temp = [];
+
+    for (int i = 0; i < list.length; i++) {
+      temp.add(
+        ExpenseModel(
+          id: list[i]['id'],
+          amount: double.parse(list[i]['amount'].toString()),
+          title: list[i]['title'],
+          date: DateTime.parse(
+            list[i]['date'].toString(),
+          ),
+        ),
+      );
+    }
+
+    _expense_data = temp;
+    return [...temp];
   }
 
-  Future<List<Map<dynamic, dynamic>>> get getMonthlyExpenses async {
+  Future<List<ExpenseModel>> get getMonthlyExpenses async {
     List<Map<String, dynamic>> list = await DBHelperExpenses.getAllData();
-    List<Map<String, dynamic>> temp = [];
+    List<ExpenseModel> temp = [];
 
     for (int i = 0; i < 31 && i < list.length; i++) {
       final day = DateTime.now().subtract(Duration(days: i));
       if (DateTime.parse(list[i]['date']).month == DateTime.now().month) {
-        temp.add(list[i]);
+        temp.add(ExpenseModel(
+            id: list[i]['id'],
+            amount: double.parse(list[i]['amount'].toString()),
+            title: list[i]['title'],
+            date: DateTime.parse(list[i]['date'].toString())));
       }
     }
 
@@ -51,7 +70,7 @@ class ExpenseProvider with ChangeNotifier {
         //     List<Map<String, dynamic>>.from(_expense_data);
         // newMap.add({'type': _data.type, 'amount': _data.amount});
         // _expense_data = newMap;
-        _expense_data.add({'title': _data.title, 'amount': _data.amount});
+        _expense_data.add(data);
       } catch (error) {
         print(error.toString());
       }
@@ -71,11 +90,7 @@ class ExpenseProvider with ChangeNotifier {
   double getSumOfExpenses() {
     double sum = 0;
     _expense_data.forEach((element) {
-      element.forEach((key, value) {
-        if (key == 'amount') {
-          sum += value;
-        }
-      });
+      sum += element.amount;
     });
 
     return sum;

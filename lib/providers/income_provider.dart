@@ -42,6 +42,7 @@ class IncomeProvider with ChangeNotifier {
         description: desc,
       ));
     });
+    _incomes = [...incomeData];
     return incomeData;
   }
 
@@ -58,6 +59,15 @@ class IncomeProvider with ChangeNotifier {
       DBHelperIncomes.addData(data);
       notifyListeners();
     }
+  }
+
+  double get totalIncome {
+    double sum = 0;
+    _incomes.forEach((element) {
+      sum += element.income;
+    });
+
+    return sum;
   }
 
   Future<double> getTotalIncome() async {
