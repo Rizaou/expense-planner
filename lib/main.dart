@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gelir_gider/database/database_providder_program_settings.dart';
+import 'package:gelir_gider/database/database_provider_expenses.dart';
 import 'package:gelir_gider/database/database_provider_incomes.dart';
 import 'package:gelir_gider/methods/global_values.dart';
 import 'package:gelir_gider/providers/expense_provider.dart';
@@ -9,13 +10,18 @@ import 'package:gelir_gider/screens/home_screen.dart';
 import 'package:gelir_gider/screens/introduction_screen.dart.dart';
 import 'package:provider/provider.dart';
 import './database/database_providder_program_settings.dart';
+import './database/database_provider_expenses.dart';
 
 //TODO : Make detail widget
+//TODO : Ask for a quastion to the user that which credit card they want to add .
+//TODO : Make annual statistic
+//TODO : MAke animated Container.
 void main() => runApp(MyHomePage());
 
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    DBHelperExpenses.descOrder;
     Widget mainScreen = Center(
       child: CircularProgressIndicator(),
     );

@@ -45,6 +45,28 @@ class DBHelperExpenses {
     } else if (data != null) {}
   }
 
+  static Future<List<ExpenseModel>> get descOrder async {
+    final db = await DBHelperExpenses._database();
+    final query = await db
+        .rawQuery("Select * from $_TABLE_NAME_EXPENSES Order By amount DESC");
+
+    List<ExpenseModel> list = [];
+    query.forEach((e) {
+      var model = ExpenseModel(
+        id: e['id'] as int,
+        amount: double.parse(e['amount'].toString()),
+        title: e['title'].toString(),
+        date: DateTime.parse(
+          e['date'].toString(),
+        ),
+      );
+
+      list.add(model);
+    });
+
+    return [...list];
+  }
+
   static void temp(String va, Function(String) f) {
     int v = 0;
     DBHelperExpenses._database().then((value) {

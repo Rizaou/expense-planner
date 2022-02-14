@@ -100,4 +100,10 @@ class ExpenseProvider with ChangeNotifier {
     await DBHelperExpenses.deleteData(id: id);
     notifyListeners();
   }
+
+  Future<List<ExpenseModel>> get getDescOrder async {
+    final list = await DBHelperExpenses.descOrder;
+    print("List lenght : " + list.length.toString());
+    return [...list];
+  }
 }

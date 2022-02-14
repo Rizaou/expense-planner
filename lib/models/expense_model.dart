@@ -22,7 +22,6 @@ class ExpenseModel {
   }
 
   Map<String, dynamic> get toJson => {
-        'id': id,
         'amount': amount,
         'desc': description,
         'title': title,

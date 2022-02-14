@@ -13,7 +13,7 @@ class Graph extends StatelessWidget {
       required double totalExpenses}) {
     //double query = MediaQuery.of(context).size.width;
     if (totalExpenses >= totalIncomes) {
-      return maxWidth;
+      return maxWidth - global_horizontal_padding;
     } else if (totalExpenses == 0 || totalIncomes == 0) {
       return 0;
     }
