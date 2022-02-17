@@ -44,8 +44,8 @@ class Graph extends StatelessWidget {
                     color: Colors.yellow,
                     borderRadius: BorderRadius.circular(100),
                   ),
-                  padding: EdgeInsets.all(5),
-                  margin: EdgeInsets.all(
+                  padding: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(
                     global_horizontal_padding,
                   ),
                   //width: MediaQuery.of(context).size.width,

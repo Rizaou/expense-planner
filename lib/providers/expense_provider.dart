@@ -44,7 +44,6 @@ class ExpenseProvider with ChangeNotifier {
     List<ExpenseModel> temp = [];
 
     for (int i = 0; i < 31 && i < list.length; i++) {
-      final day = DateTime.now().subtract(Duration(days: i));
       if (DateTime.parse(list[i]['date']).month == DateTime.now().month) {
         temp.add(ExpenseModel(
             id: list[i]['id'],
@@ -57,6 +56,26 @@ class ExpenseProvider with ChangeNotifier {
     _expense_data = temp;
 
     return [..._expense_data];
+  }
+
+  Future<List<ExpenseModel>> get getAnnualExpenses async {
+    List<Map<String, dynamic>> list = await DBHelperExpenses.getAllData();
+    List<ExpenseModel> temp = [];
+
+    for (int i = 0; i < 31 && i < list.length; i++) {
+      if (DateTime.parse(list[i]['date']).year == DateTime.now().year) {
+        var model = ExpenseModel(
+          id: list[i]['id'].toString() as int,
+          amount: double.parse(list[i]['amount'].toString()),
+          title: list[i]['title'].toString(),
+          date: DateTime.parse(
+            list[i]['date'].toString(),
+          ),
+        );
+      }
+    }
+
+    return [...temp];
   }
 
   int get length => _expense_data.length;
@@ -101,9 +120,13 @@ class ExpenseProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<ExpenseModel>> get getDescOrder async {
+  Future<List<ExpenseModel>> get getMonthlyDescOrder async {
     final list = await DBHelperExpenses.descOrder;
     print("List lenght : " + list.length.toString());
     return [...list];
+  }
+
+  Future<List<ExpenseModel>> get getAnnualDescOrder async {
+    return [];
   }
 }

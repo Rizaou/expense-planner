@@ -10,6 +10,17 @@ class IncomeProvider with ChangeNotifier {
   IncomeProvider() {
     incomes;
   }
+
+  double get sumOfCachedIncomes {
+    double sum = 0;
+
+    _incomes.forEach((element) {
+      sum += element.income;
+    });
+
+    return sum;
+  }
+
   Future<List<IncomeModel>> get incomes async {
     List<Map> data = await DBHelperIncomes.getAllData();
     List<IncomeModel> incomeData = [];

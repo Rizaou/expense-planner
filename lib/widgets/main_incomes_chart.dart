@@ -21,7 +21,7 @@ class _MainIncomeChartState extends State<MainIncomeChart> {
     Color green = Colors.green.shade500;
     Color white = Colors.white;
     double ratio = 100 * expenses / incomes;
-    print("ratio : $ratio");
+
     if (expenses == 0 && incomes == 0) {
       return [white, white];
     } else if (incomes == 0) {

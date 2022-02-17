@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:gelir_gider/methods/global_values.dart';
 import 'package:gelir_gider/models/expense_model.dart';
 import 'package:gelir_gider/providers/expense_provider.dart';
+import 'package:gelir_gider/providers/income_provider.dart';
 import 'package:provider/provider.dart';
 
 enum Screens {
@@ -14,7 +17,6 @@ class DetailCard extends StatefulWidget {
   Screens currentScene = Screens.monthly;
   String title = "Monthly";
   List<ExpenseModel> list = [];
-  double textFactor = 1.5;
 
   @override
   State<DetailCard> createState() => _DetailCardState();
@@ -40,10 +42,60 @@ class _DetailCardState extends State<DetailCard> {
     }
   }
 
+  Future _getFuture(ExpenseProvider provider) {
+    if (widget.currentScene == Screens.annual) {
+      return provider.getAnnualExpenses;
+    } else {
+      return provider.getMonthlyDescOrder;
+    }
+  }
+
+  Widget _getStatistic(ExpenseProvider expenseProvider) {
+    double textFactor = 1.5;
+    return FutureBuilder(
+      future: _getFuture(expenseProvider).then((value) => widget.list = value),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text("Error");
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return Card();
+        } else {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ...widget.list.map((e) {
+                var wg = Container(
+                  margin: EdgeInsets.all(global_horizontal_padding / 2),
+                  child: Text(
+                    e.title,
+                    textScaleFactor: textFactor,
+                  ),
+                );
+                textFactor *= .2;
+                if (textFactor < .8) {
+                  textFactor = .8;
+                }
+                return wg;
+              }).toList()
+            ],
+          );
+        }
+      },
+    );
+  }
+
+  double _calculateAnnualIncome(double expenses, double incomes) {
+    final now = DateTime.now().month;
+    final factor =
+        (DateTime.december - now) == 0 ? 1 : (DateTime.december - now);
+
+    return (incomes - expenses) * factor;
+  }
+
   @override
   Widget build(BuildContext context) {
     final expenseProvider = Provider.of<ExpenseProvider>(context);
-
+    final incomeProvider = Provider.of<IncomeProvider>(context);
     Widget _appBar = Container(
       padding: const EdgeInsets.symmetric(
         horizontal: global_horizontal_padding,
@@ -105,38 +157,7 @@ class _DetailCardState extends State<DetailCard> {
                         child: Text("YOUR MOST EXPENSES",
                             textAlign: TextAlign.center),
                       ),
-                      FutureBuilder(
-                        future: expenseProvider.getDescOrder
-                            .then((value) => widget.list = value),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return Text("Error");
-                          } else if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Card();
-                          } else {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ...widget.list.map((e) {
-                                  var wg = Container(
-                                      margin: EdgeInsets.all(
-                                          global_horizontal_padding / 2),
-                                      child: Text(
-                                        e.title,
-                                        textScaleFactor: widget.textFactor,
-                                      ));
-                                  widget.textFactor *= .2;
-                                  if (widget.textFactor < .8) {
-                                    widget.textFactor = .8;
-                                  }
-                                  return wg;
-                                }).toList()
-                              ],
-                            );
-                          }
-                        },
-                      )
+                      _getStatistic(expenseProvider),
                     ],
                   );
                 },
@@ -145,7 +166,10 @@ class _DetailCardState extends State<DetailCard> {
           ],
         ),
         Container(
-          child: Text("Are2"),
+          child: Flexible(
+            child: Text(
+                "If it continues like this, your annual income will be :\n${_calculateAnnualIncome(expenseProvider.getSumOfExpenses(), incomeProvider.sumOfCachedIncomes)}"),
+          ),
         )
       ],
     );

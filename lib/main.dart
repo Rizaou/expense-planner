@@ -16,6 +16,7 @@ import './database/database_provider_expenses.dart';
 //TODO : Ask for a quastion to the user that which credit card they want to add .
 //TODO : Make annual statistic
 //TODO : MAke animated Container.
+//TODO: Add some columns to DB that names are year, month ,date and DateTime.
 void main() => runApp(MyHomePage());
 
 class MyHomePage extends StatelessWidget {
