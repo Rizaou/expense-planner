@@ -17,8 +17,8 @@ class _MainIncomeChartState extends State<MainIncomeChart> {
   double expenses = 0;
 
   List<Color> getColor() {
-    Color red = Colors.red.shade500;
-    Color green = Colors.green.shade500;
+    Color red = Colors.deepOrangeAccent.shade700;
+    Color green = Theme.of(context).cardColor;
     Color white = Colors.white;
     double ratio = 100 * expenses / incomes;
 
@@ -67,80 +67,62 @@ class _MainIncomeChartState extends State<MainIncomeChart> {
             padding: const EdgeInsets.all(global_horizontal_padding),
             child: Column(
               children: [
-                Card(
-                  elevation: global_elevation_value,
-                  child: Container(
-                    height: global_card_height_px,
-                    alignment: Alignment.center,
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(global_horizontal_padding),
-                    child: Text(
-                      (incomes - expenses).toString(),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(global_card_corner_big),
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: getColor(),
                     ),
                   ),
-                ),
-                Card(
-                  elevation: global_elevation_value,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: getColor(),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          Card(
+                            elevation: global_elevation_value,
+                            color: Colors.green,
+                            child: Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Text(
+                                  (programSettings.tr_text["income"] as String)
+                                      .toUpperCase(),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                )),
+                          ),
+                          Card(
+                            elevation: global_elevation_value,
+                            child: Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Text("${incomes}")),
+                          ),
+                        ],
                       ),
-                    ),
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            Card(
-                              elevation: global_elevation_value,
-                              color: Colors.green,
-                              child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Text(
-                                    (programSettings.tr_text["income"]
-                                            as String)
-                                        .toUpperCase(),
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  )),
-                            ),
-                            Card(
-                              elevation: global_elevation_value,
-                              child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Text("${incomes}")),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Card(
-                              elevation: global_elevation_value,
-                              color: Colors.red,
-                              child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Text(
-                                    (programSettings.tr_text["expense"]
-                                            as String)
-                                        .toUpperCase(),
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  )),
-                            ),
-                            Card(
-                              elevation: global_elevation_value,
-                              child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Text("${expenses}")),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                      Column(
+                        children: [
+                          Card(
+                            elevation: global_elevation_value,
+                            color: Colors.red,
+                            child: Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Text(
+                                  (programSettings.tr_text["expense"] as String)
+                                      .toUpperCase(),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                )),
+                          ),
+                          Card(
+                            elevation: global_elevation_value,
+                            child: Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Text("${expenses}")),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],

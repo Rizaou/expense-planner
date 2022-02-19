@@ -91,7 +91,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   ),
                   child: Icon(
                     Icons.arrow_downward_rounded,
-                    color: scaffoldBGColor,
+                    color: primaryColor,
                   ),
                   onPressed: () {
                     pageController.nextPage(
@@ -208,7 +208,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                 ),
                 child: Icon(
                   Icons.add,
-                  color: scaffoldBGColor,
+                  color: primaryColor,
                 ),
                 onPressed: () {
                   if (amountController.text.isNotEmpty &&

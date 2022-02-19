@@ -20,6 +20,8 @@ class ExpenseCard extends StatelessWidget {
       : super(key: key);
 
   String _checkTag() {
+    //TODO: Check if the input lenght higher than X value, then do some operations.
+
     if (title.length > 10) {
       String yeni = title.substring(0, 7);
 
@@ -33,62 +35,75 @@ class ExpenseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final expenseProvider = Provider.of<ExpenseProvider>(context);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-      ),
+    return Container(
+      margin: const EdgeInsets.all(global_horizontal_padding),
       child: Dismissible(
         onDismissed: (direction) => expenseProvider.deleteData(id),
         key: Key(id.toString()),
         background: Container(
-          color: Colors.red,
+          color: secondaryColor,
           margin: EdgeInsets.symmetric(vertical: 8),
         ),
         direction: DismissDirection.endToStart,
-        child: Card(
-          elevation: global_elevation_value,
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.red.shade500,
-                  Colors.white,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.topRight,
-              ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(global_card_corner_low),
+            gradient: LinearGradient(
+              colors: [
+                secondaryColor,
+                cardColor,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.topRight,
             ),
-            height: global_card_height_px,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          ),
+          height: global_card_height_px,
+          child: Row(
+            children: [
+              Container(
+                //alignment: Alignment.center,
+                padding: const EdgeInsets.only(
+                  left: global_horizontal_padding * 2,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const Icon(Icons.card_travel_outlined),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 70,
-                      child: Text(_checkTag()),
+                    const SizedBox(height: 10),
+                    Text(
+                      '$amount',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                    ),
+                    Text(
+                      DateFormat('dd/MM/yyyy').format(date),
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.all(global_horizontal_padding),
+                //alignment: Alignment.centerRight,
+                width: MediaQuery.of(context).size.width / 2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        title, //_checkTag(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                Container(
-                  height: 50,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const SizedBox(height: 10),
-                      Text('$amount'),
-                      Text(
-                        DateFormat('dd/MM/yyyy').format(date),
-                        style: TextStyle(fontSize: 12),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

@@ -22,30 +22,27 @@ class IncomeCard extends StatelessWidget {
       child: Dismissible(
         key: ValueKey(id),
         onDismissed: (direction) => incomeProvider.deleteData(id),
-        child: Card(
-          elevation: global_elevation_value,
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.green.shade500,
-                  Colors.white,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.topRight,
-              ),
-            ),
-            alignment: Alignment.center,
-            height: global_card_height_px,
-            width: double.infinity,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Icon(Icons.attach_money),
-                Text('${title}'),
-                Text('${amount}'),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                cardColor,
+                Colors.white,
               ],
+              begin: Alignment.topLeft,
+              end: Alignment.topRight,
             ),
+          ),
+          alignment: Alignment.center,
+          height: global_card_height_px,
+          width: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Icon(Icons.attach_money),
+              Text('${title}'),
+              Text('${amount}'),
+            ],
           ),
         ),
       ),

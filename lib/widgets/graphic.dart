@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gelir_gider/methods/global_values.dart';
 import 'package:gelir_gider/models/expense_model.dart';
 import 'package:gelir_gider/providers/program_settings_provider.dart';
-import 'package:gelir_gider/widgets/my_custom_graph.dart';
+import 'package:gelir_gider/widgets/general_card.dart';
 import 'package:graphic/graphic.dart';
 import 'package:provider/provider.dart';
 import '../providers/expense_provider.dart';
@@ -69,7 +69,7 @@ class _MyChartState extends State<MyChart> {
               ? _emptyGraph(programSettings.tr_text["no_transaction"])
               : Container(
                   // height: 400,
-                  child: Graph(),
+                  child: GeneralCard(),
                 );
         }
       },

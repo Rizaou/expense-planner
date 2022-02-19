@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gelir_gider/methods/global_values.dart';
 import 'package:gelir_gider/models/expense_model.dart';
 import 'package:gelir_gider/models/income_model.dart';
 import 'package:gelir_gider/widgets/detail_card.dart';
-import 'package:gelir_gider/widgets/my_custom_graph.dart';
+import 'package:gelir_gider/widgets/dialog_add_expense.dart';
+import 'package:gelir_gider/widgets/dialog_add_income.dart';
+import 'package:gelir_gider/widgets/general_card.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'detail_widget.dart';
@@ -23,11 +26,31 @@ class CreateMainList extends StatelessWidget {
   final List<ExpenseModel> expenseData;
   final List<IncomeModel> incomeData;
 
-  Widget _getAllList() {
+  Widget _getAllList(BuildContext context) {
     return Column(
       children: [
-        Graph(),
-        MainIncomeChart(),
+        GeneralCard(),
+        Container(
+          decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(global_card_corner_low)),
+          padding: const EdgeInsets.all(global_horizontal_padding),
+          margin:
+              const EdgeInsets.symmetric(horizontal: global_horizontal_padding),
+          width: double.infinity,
+          child: const Text("EXPENSES", textAlign: TextAlign.center),
+        ),
+        // MainIncomeChart(),
+        ElevatedButton(
+            onPressed: () {
+              AddIncome().getDialog(context);
+            },
+            child: Text("Income")),
+        ElevatedButton(
+            onPressed: () {
+              AddExpense().getDialog(context);
+            },
+            child: Text("Expense")),
         ...expenseData
             .map((e) => ExpenseCard(
                 title: e.title, amount: e.amount, date: e.date, id: e.id))
@@ -40,6 +63,7 @@ class CreateMainList extends StatelessWidget {
                 ))
             .toList(),
         DetailCard(),
+        const Text("YOUR CARDS!"),
       ],
     );
   }
@@ -50,7 +74,7 @@ class CreateMainList extends StatelessWidget {
       itemScrollController: control,
       itemCount: 1,
       itemBuilder: (context, index) {
-        return _getAllList();
+        return _getAllList(context);
       },
     );
   }

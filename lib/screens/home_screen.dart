@@ -54,44 +54,46 @@ class _HomeScreenState extends State<HomeScreen> {
     final incomeProvider = Provider.of<IncomeProvider>(context);
     final programSettings = Provider.of<ProgramSettings>(context);
     return Scaffold(
-      appBar: AppBar(
-        //backgroundColor: scaffoldBGColor,
-        title: Text(programSettings.tr_text["home_page"]),
-        actions: [
-          IconButton(
-              onPressed: () {
-                AddIncome().getDialog(context);
-              },
-              icon: const Icon(Icons.flag)),
-          IconButton(
-            onPressed: () {
-              AddExpense().getDialog(context);
-            },
-            icon: const Icon(Icons.add),
-          ),
-        ],
+      // appBar: AppBar(
+      //   //backgroundColor: scaffoldBGColor,
+      //   title: Text(programSettings.tr_text["home_page"]),
+      //   actions: [
+      //     IconButton(
+      //         onPressed: () {
+      //           AddIncome().getDialog(context);
+      //         },
+      //         icon: const Icon(Icons.flag)),
+      //     IconButton(
+      //       onPressed: () {
+      //         AddExpense().getDialog(context);
+      //       },
+      //       icon: const Icon(Icons.add),
+      //     ),
+      //   ],
+      // ),
+      body: SafeArea(
+        child: FutureBuilder(
+            future: expensesProvider.getMonthlyExpenses
+                .then((value) => widget.expenseData = value)
+                .then((value) => incomeProvider.incomes)
+                .then((value) {
+              widget.incomeData = value;
+            }),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text(programSettings.tr_text["error"]);
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text('loading');
+              } else {
+                print("Count ");
+                return CreateMainList(
+                  control: control,
+                  expenseData: widget.expenseData,
+                  incomeData: widget.incomeData,
+                );
+              }
+            }),
       ),
-      body: FutureBuilder(
-          future: expensesProvider.getMonthlyExpenses
-              .then((value) => widget.expenseData = value)
-              .then((value) => incomeProvider.incomes)
-              .then((value) {
-            widget.incomeData = value;
-          }),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Text(programSettings.tr_text["error"]);
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text('loading');
-            } else {
-              print("Count ");
-              return CreateMainList(
-                control: control,
-                expenseData: widget.expenseData,
-                incomeData: widget.incomeData,
-              );
-            }
-          }),
       floatingActionButton: CustomFloatingBar(
         chart: widget,
       ),

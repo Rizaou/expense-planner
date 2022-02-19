@@ -39,9 +39,14 @@ class MyHomePage extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        theme: ThemeData(
-            //scaffoldBackgroundColor: scaffoldBGColor,
-            ),
+        theme: ThemeData.dark().copyWith(
+          primaryColor: Colors.green.shade900,
+          // colorScheme: ColorScheme.dark().copyWith(
+          //     background: Colors.black, primary: Colors.green.shade900),
+          // accentColor: ,
+          scaffoldBackgroundColor: Colors.black,
+          cardColor: Color.fromARGB(255, 12, 39, 28),
+        ),
         debugShowCheckedModeBanner: false,
         home: FutureBuilder(
           future: getFirstScreen.then((value) => mainScreen = value),
