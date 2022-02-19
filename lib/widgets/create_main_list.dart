@@ -41,23 +41,23 @@ class CreateMainList extends StatelessWidget {
           child: const Text("EXPENSES", textAlign: TextAlign.center),
         ),
         // MainIncomeChart(),
-        ElevatedButton(
-            onPressed: () {
-              AddIncome().getDialog(context);
-            },
-            child: Text("Income")),
-        ElevatedButton(
-            onPressed: () {
-              AddExpense().getDialog(context);
-            },
-            child: Text("Expense")),
+
         ...expenseData
             .map((e) => ExpenseCard(
-                title: e.title, amount: e.amount, date: e.date, id: e.id))
+                  title: e.title,
+                  amount: e.amount,
+                  date: e.date,
+                  id: e.id,
+                  color1: secondaryColor,
+                  color2: cardColor,
+                ))
             .toList(),
         ...incomeData
-            .map((e) => IncomeCard(
+            .map((e) => ExpenseCard(
                   id: e.id,
+                  color1: cardColor,
+                  color2: Colors.white,
+                  date: e.date,
                   amount: e.income,
                   title: e.description,
                 ))

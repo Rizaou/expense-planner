@@ -8,7 +8,7 @@ const double global_horizontal_padding = 10;
 const global_card_height_px = 80.0;
 Color primaryColor = Colors.green.shade900;
 Color secondaryColor = Colors.deepOrangeAccent.shade700;
-Color cardColor = Colors.blueGrey.shade900;
+Color cardColor = Color.fromARGB(255, 12, 39, 28);
 const double global_card_corner_big = 12;
 const double global_card_corner_low = 8;
 

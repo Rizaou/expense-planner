@@ -16,36 +16,51 @@ class IncomeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final incomeProvider = Provider.of<IncomeProvider>(context);
 
-    return Padding(
-      padding:
-          const EdgeInsets.symmetric(horizontal: global_horizontal_padding),
-      child: Dismissible(
-        key: ValueKey(id),
-        onDismissed: (direction) => incomeProvider.deleteData(id),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                cardColor,
-                Colors.white,
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.topRight,
-            ),
-          ),
-          alignment: Alignment.center,
-          height: global_card_height_px,
-          width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const Icon(Icons.attach_money),
-              Text('${title}'),
-              Text('${amount}'),
-            ],
-          ),
-        ),
-      ),
-    );
+    return Container(
+        // margin: const EdgeInsets.all(global_horizontal_padding),
+        // child: Dismissible(
+        //   key: ValueKey(id),
+        //   onDismissed: (direction) => incomeProvider.deleteData(id),
+        //   child: Container(
+        //     decoration: BoxDecoration(
+        //       borderRadius: BorderRadius.circular(global_card_corner_low),
+        //       gradient: LinearGradient(
+        //         colors: [
+        //           cardColor,
+        //           Colors.white,
+        //         ],
+        //         begin: Alignment.topLeft,
+        //         end: Alignment.topRight,
+        //       ),
+        //     ),
+        //     alignment: Alignment.center,
+        //     height: global_card_height_px,
+        //     width: double.infinity,
+        //     child: Row(
+        //       //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //       children: [
+        //         Container(
+        //           child: Flexible(child: Text('${title}')),
+        //           padding: EdgeInsets.only(
+        //               left: global_horizontal_padding * 2,
+        //               top: global_horizontal_padding),
+        //         ),
+        //         Spacer(),
+        //         Container(
+        //           child: Row(
+        //             children: [
+        //               Flexible(
+        //                   child: Text(
+        //                 '${amount}',
+        //                 textAlign: TextAlign.center,
+        //               )),
+        //             ],
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
+        );
   }
 }
